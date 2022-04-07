@@ -1,0 +1,6 @@
+cache/
+out/
+node_modules
+.env
+
+circuits/pot18_final.ptau

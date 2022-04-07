@@ -1,0 +1,13 @@
+{
+  "name": "circuits",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "ruhum",
+  "license": "MIT",
+  "devDependencies": {
+    "snarkjs": "^0.4.14"
+  },
+  "dependencies": {
+    "circomlib": "^2.0.3"
+  }
+}
