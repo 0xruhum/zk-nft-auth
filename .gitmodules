@@ -4,3 +4,6 @@
 [submodule "lib/circom-ecdsa"]
 	path = lib/circom-ecdsa
 	url = https://github.com/0xPARC/circom-ecdsa
+[submodule "lib/solmate"]
+	path = lib/solmate
+	url = https://github.com/Rari-Capital/solmate
