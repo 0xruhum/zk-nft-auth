@@ -1,4 +1,5 @@
 [default]
 remappings = [
-  'openzeppelin/=lib/openzeppelin-contracts/contracts/'
+  'openzeppelin/=lib/openzeppelin-contracts/contracts/',
+  'solmate/=lib/solmate/src/'
 ]

@@ -5,26 +5,13 @@ import "openzeppelin/token/ERC721/extensions/IERC721Enumerable.sol";
 import "./Verifier.sol";
 
 contract MessageBoard is Verifier {
-  // owner address as uints, see constructor
-  uint[] private nftOwners;
+  IERC721Enumerable nftContract;
   string[] private messages;
 
   constructor(
     address nftContractAddress
   ) {
-    IERC721Enumerable nftContract = IERC721Enumerable(nftContractAddress);
-    uint numberOfTokens = nftContract.totalSupply();
-    for (uint i; i < numberOfTokens; i++) {
-      nftOwners.push(uint256(uint160(nftContract.ownerOf(i))));
-    }
-  }
-
-  function getNFTOwners() external view returns (uint[] memory) {
-    return nftOwners;
-  }
-
-  function getMessages() external view returns (string[] memory) {
-    return messages;
+    nftContract = IERC721Enumerable(nftContractAddress);
   }
 
   function postMsg(
@@ -34,10 +21,24 @@ contract MessageBoard is Verifier {
     uint[4] calldata inputs,
     string calldata message
   ) external {
+    uint[] memory nftOwners = getNFTOwners();
     for (uint i; i < inputs.length; i++) {
       require(inputs[i] == nftOwners[i], "input doesn't match actual owners");
     }
     require(verifyProof(a, b, c, inputs), "proof is invalid");
     messages.push(message);
+  }
+
+  function getNFTOwners() public view returns (uint[] memory) {
+    uint numberOfTokens = nftContract.totalSupply();
+    uint[] memory nftOwners = new uint[](numberOfTokens);
+    for (uint i; i < numberOfTokens; i++) {
+      nftOwners[i] = (uint256(uint160(nftContract.ownerOf(i))));
+    }
+    return nftOwners;
+  }
+
+  function getMessages() external view returns (string[] memory) {
+    return messages;
   }
 }
