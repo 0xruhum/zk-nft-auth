@@ -19,7 +19,7 @@ template NFT (o, n, k) {
   signal input privateKey[k];
 
   // poseidon hash of address + privateKey[0]
-  signal output nullifier;
+  signal input nullifier;
   
   // Verify that the passed address is an owner of a token.
   var accum = 1;
@@ -42,10 +42,11 @@ template NFT (o, n, k) {
   eq.in[1] <== address;
   eq.out === 1;
 
+  // verify that the nullifier is correct
   component hash = Poseidon(2);
   hash.inputs[0] <== address;
   hash.inputs[1] <== privateKey[0];
-  nullifier <== hash.out;
+  nullifier === hash.out;
 }
 
-component main {public [owners]} = NFT(4, 64, 4);
+component main {public [owners, nullifier]} = NFT(4, 64, 4);
